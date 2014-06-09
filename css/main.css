@@ -68,11 +68,17 @@ footer h5 {
 }
 
 @media (min-width: 992px) {
-
+  .tabzilla-container {
+    width: 940px;
+    margin: 0 auto;
+  }
 }
 
 @media (min-width: 1200px) {
-
+  .tabzilla-container {
+    width: 1140px;
+    margin: 0 auto;
+  }
 }
 
 @media (max-width: 768px) {
