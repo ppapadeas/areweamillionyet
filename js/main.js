@@ -313,22 +313,6 @@ function display_latest (data) {
       return $.number(d.total.total_active);
     });
 
-  // Get the buckets
-  d3.select("#buckets").selectAll("h4")
-    .each(function (d, i) {
-      var bucket = d3.select(this);
-      var id = bucket.attr("id");
-      var bucketLabel = id.replace("bucket-","");
-      var bucketCount = 0;
-      data.buckets.forEach(function (element, index, array) {
-        if (element.bucket && (element.bucket === bucketLabel)) {
-          if (element.total_active) {
-            bucketCount = element.total_active;
-          }
-        }
-      });
-      bucket.text($.number(bucketCount));
-    });
 }
 
 d3.json(TOTALS_DATA, display_latest);

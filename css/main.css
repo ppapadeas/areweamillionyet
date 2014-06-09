@@ -1,18 +1,60 @@
 body {
-  background: #013E5F;
+  background-image: -moz-linear-gradient(top, #D7D3C8 0%, #F6F4EC 100%);
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #D7D3C8), color-stop(1, #F6F4EC));
+  background-image: -webkit-linear-gradient(top, #D7D3C8 0%, #F6F4EC 100%);
+  background-image: linear-gradient(to bottom, #D7D3C8 0%, #F6F4EC 100%);
+  font-size: 14px;
+  line-height: 1.5;
+  font-family: "Open Sans","Droid Arabic Naskh","Mplus Fulah",sans-serif;
+  color: #333;
 }
 
+h1, h2, h3, h4 {
+  font-family: "Open Sans Light","Droid Arabic Naskh","Mplus Fulah Light",sans-serif;
+  text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.75);
+}
+
+h1 {
+  font-size: 48px;
+  letter-spacing: -2px;
+  line-height: 100%;
+}
+h2 {
+  font-size: 32px;
+  letter-spacing: -1px;
+  line-height: 100%;
+}
+h3 {
+  font-size: 28px;
+  letter-spacing: -0.5px;
+  line-height: 100%;
+}
+h4 {
+  font-size: 24px;
+  letter-spacing: -0.25px;
+  line-height: 100%;
+}
+.small, small {
+  font-size: 12px;
+  line-height: 100%;
+}
+
+.bold {
+  font-weight: bold;
+}
 #chart {
   margin-top: 20px;
 }
 
 .dashboard-container {
-  background:  #3fb58e;
   padding: 20px 0 40px;
 }
 
+.tabzilla-container {
+  height: 40px;
+}
 .current-numbers {
-  color: #FFF;
+  color: #333;
 }
 
 .definition {
@@ -23,7 +65,7 @@ body {
   display: inline;
   float: right;
   margin: 0 0 0 40px;
-  color: #FFF;
+  color: #333;
   font-size: 12px;
   line-height: 20px;
 }
@@ -33,7 +75,7 @@ body {
   float: left;
   width: 12px;
   height: 12px;
-  background: #FFF;
+  background: #333;
   margin: 4px 9px 0 0;
 }
 
@@ -42,23 +84,26 @@ body {
 }
 
 .key.contributors-new {
-  background: #ffcd36;
+  background: #7BB32B;
 }
 
 .wm-footer {
     padding: 40px 0px;
-    background-color: #013E5F;
-    color: #FFF;
+    background-color: white;
+    color: #333;
 }
 
-footer h4 {
-  color: #028ED9;
-  margin-bottom: 5px;
+.wm-footer .logo a {
+  text-indent: 120%;
+  background: url('../img/footer-mozilla.png') no-repeat scroll left top transparent;
+  white-space: nowrap;
+  overflow: hidden;
+  display: inline-block;
+  width: 93px;
 }
 
-footer h5 {
-  color: #02669D;
-  margin-top: 5px;
+.wm-footer {
+  font-size: 0.8em;
 }
 
 @media (min-width: 768px) {
@@ -127,7 +172,7 @@ footer h5 {
 /* Styling for D3 SVG Graph */
 
 svg {
-  background:  #3fb58e;
+  /*background:  #3fb58e; */
 }
 
 .axis path {
@@ -151,16 +196,16 @@ svg {
   fill: none;
 }
 .tick text {
-  fill: #FFF;
+  fill: #333;
   stroke: none;
 }
 .axis.new .tick text {
-  fill: #FFCD36;
+  fill: #7BB32B;
 }
 
 circle {
   stroke: none;
-  fill: #fff;
+  fill: #333;
 }
 
 circle.future-date {
@@ -169,12 +214,12 @@ circle.future-date {
 
 .line.active-contributors {
   fill: none;
-  stroke: #fff;
+  stroke: #333;
   stroke-width: 1.5px;
 }
 
 rect.new-contributors {
-  fill: #ffcd36;
+  fill: #7BB32B;
 }
 
 rect.hide {
@@ -189,7 +234,7 @@ line.target {
 
 line.target.goal {
     fill: none;
-    stroke: #FFF;
+    stroke: #333;
 }
 
 body rect {
@@ -198,7 +243,7 @@ body rect {
 
 rect.info-area {
   opacity: 0;
-  fill: #FFF;
+  fill: #333;
   position: relative;
 }
 
