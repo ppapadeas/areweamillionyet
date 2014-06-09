@@ -84,7 +84,7 @@ h4 {
 }
 
 .key.contributors-new {
-  background: #7BB32B;
+  background: #3793D4;
 }
 
 .wm-footer {
@@ -200,7 +200,7 @@ svg {
   stroke: none;
 }
 .axis.new .tick text {
-  fill: #7BB32B;
+  fill: #3793D4;
 }
 
 circle {
@@ -219,7 +219,7 @@ circle.future-date {
 }
 
 rect.new-contributors {
-  fill: #7BB32B;
+  fill: #3793D4;
 }
 
 rect.hide {
