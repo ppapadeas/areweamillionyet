@@ -181,7 +181,7 @@ svg {
 
 .axis path {
   fill: none;
-  stroke: #68CAA9;
+  stroke: #aaa;
   shape-rendering: crispEdges;
 }
 .axis {
@@ -192,7 +192,7 @@ svg {
 
 .axis line {
   fill: none;
-  stroke: #68CAA9;
+  stroke: #aaa;
   shape-rendering: crispEdges;
 }
 
@@ -213,7 +213,7 @@ circle {
 }
 
 circle.future-date {
-  fill: #68CAA9;
+  fill: #aaa;
 }
 
 .line.active-contributors {
@@ -232,7 +232,7 @@ rect.hide {
 
 line.target {
     fill: none;
-    stroke: #68CAA9;
+    stroke: #aaa;
     opacity: 0.4;
 }
 

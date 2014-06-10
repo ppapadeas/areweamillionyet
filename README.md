@@ -1,4 +1,4 @@
-Mofo Contributors Dashboard (Prototype)
+Mozilla Contributors Dashboard (Areweamillionyet.org)
 ===================
 
-A front end dashboard to graph Mozilla Foundation Contributor Numbers and a selection of top-line numbers to support this.
+A front end dashboard to graph Mozilla Contributor Numbers. More info can be found here: https://wiki.mozilla.org/Contribute/Areweamillionyet

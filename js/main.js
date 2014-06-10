@@ -92,7 +92,7 @@ function draw(data) {
   .attr('class', 'd3-tip')
   .offset([35, 0])
   .html(function(d) {
-    return "<span style='color:#FFF;'>" + $.number(d.totalactive) + "</span> Active<br /><span style='color:#FFCD36;'>" + $.number(d.new) + "</span> New";
+    return "<span style='color:#FFF;'>" + $.number(d.totalactive) + "</span> Active<br /><span style='color:#3793D4;'>" + $.number(d.new) + "</span> New";
   });
 
   d3.select("#chart").call(tip);
