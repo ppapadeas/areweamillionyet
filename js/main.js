@@ -51,6 +51,7 @@ var VIEWBOX = "0 0 " + (width + margin.horizontal) + " " + (height + margin.vert
 var TICK_VALUES = [TARGET_25_percent, TARGET_50_percent, TARGET_75_percent, TARGET, Y_SCALE_MAX_DEFAULT];
 
 var SHOW_FUTURE_LAG = false;
+var now = new Date();
 
 // CONTAINER
 d3.select("#chart")
@@ -60,7 +61,6 @@ d3.select("#chart")
 
 // Build the graph
 function draw(data) {
-  var now = new Date();
 
   // SCALE
   var y_scale_max = Y_SCALE_MAX_DEFAULT;
@@ -304,13 +304,16 @@ function display_latest (data) {
   d3.select("#active-total")
     .data([data])
     .text(function (d) {
-      var wkcommencing = new Date(d.wkcommencing);
-      var weekPrior = new Date(now);
-      weekPrior.setDate(queryDate.getDate() - 7);
-      // get the most recent total
-      if ((wkcommencing <= now) && (wkcommencing >= weekPrior)) {
-        return d.totalactive;
+      var total = 0;
+      for (var i = 0; i < d.length; i++) {
+        var wkcommencing = new Date(d[i].wkcommencing);
+        var weekPrior = new Date(now);
+        weekPrior.setDate(weekPrior.getDate() - 7);
+        if ((wkcommencing <= now) && (wkcommencing >= weekPrior)) {
+          total = d[i].totalactive;
+        }
       }
+      return $.number(total);
     });
 
 }
