@@ -171,6 +171,10 @@ h4 {
     float: left;
     margin-top: 25px;
   }
+
+  .caution {
+    width: 250%;
+  }
 }
 
 /* Styling for D3 SVG Graph */
