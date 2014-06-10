@@ -26,8 +26,8 @@ if (team && ($.inArray(team, validTeams) > -1)) {
     TITLE = 'OpenNews';
 
   } else if (team === 'qa') {
-    TARGET = 3000;
-    TITLE = 'QA';
+    TARGET = 1000;
+    TITLE = 'Quality Assurance';
   }
 }
 
