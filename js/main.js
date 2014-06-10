@@ -1,38 +1,34 @@
 
 // check parameters to customise this by team:
 var team = $.url().param("team");
-var validTeams = ['webmaker', 'openbadges', 'sciencelab', 'opennews', 'appmaker', 'hive'];
+var validTeams = ['moco', 'qa', 'coding', 'mofo', 'opennews', 'webmaker'];
+
+var GRAPH_DATA = "http://gitribution2.herokuapp.com/api/2014/all/";
+var TARGET = 20000;
+var TITLE = 'All Mozilla';
 
 if (team && ($.inArray(team, validTeams) > -1)) {
-  var GRAPH_DATA = "http://aggredash.herokuapp.com/api/" + team + "/2014";
-  var TOTALS_DATA = "http://aggredash.herokuapp.com/api/" + team + "/2014/latest";
-  var TARGET;
-  var TITLE;
-  if (team === 'webmaker') {
+  GRAPH_DATA = "http://gitribution2.herokuapp.com/api/2014/" + team;
+  if (team === 'moco') {
+    TARGET = 10000;
+    TITLE = 'Mozilla Corporation';
+
+  } else if (team === 'mofo') {
+    TARGET = 10000;
+    TITLE = 'Mozilla Foundation';
+
+  } else if (team === 'webmaker') {
     TARGET = 10000;
     TITLE = 'Webmaker';
-  } else if (team === 'openbadges') {
-    TARGET = 1000;
-    TITLE = 'Open Badges';
-  } else if (team === 'sciencelab') {
-    TARGET = 500;
-    TITLE = 'Science Lab';
-  } else if (team === 'appmaker') {
-    TARGET = 500;
-    TITLE = 'Appmaker';
+
   } else if (team === 'opennews') {
     TARGET = 500;
     TITLE = 'OpenNews';
-  } else if (team === 'hive') {
-    TARGET = 750;
-    TITLE = 'Hive';
+
+  } else if (team === 'qa') {
+    TARGET = 3000;
+    TITLE = 'QA';
   }
-} else {
-  // default Mofo view
-  var GRAPH_DATA = "http://aggredash.herokuapp.com/api/mofo/2014";
-  var TOTALS_DATA = "http://aggredash.herokuapp.com/api/mofo/2014/latest";
-  var TARGET = 10000;
-  var TITLE = 'All Mozilla Foundation';
 }
 
 $('#teamName').text(TITLE);
@@ -80,7 +76,7 @@ function draw(data) {
   var contributor_new_extent = d3.extent(data, function (d) { return d.new; });
   var y_scale_2 = d3.scale.linear()
     .range([height + margin.top, margin.top])
-    .domain([0,contributor_new_extent[1]*6]);
+    .domain([0,contributor_new_extent[1]*15]);
 
   var time_extent = d3.extent(data, function (d) { return new Date(d.wkcommencing); });
   var x_scale = d3.time.scale()
@@ -302,17 +298,21 @@ $(window).on("resize", function() {
 
 
 
-// Latest counts (seperate from the weekly data in the graph)
+// TOTAL
 function display_latest (data) {
 
-  // Get the total
   d3.select("#active-total")
     .data([data])
     .text(function (d) {
-      //return d;
-      return $.number(d.total.total_active);
+      var wkcommencing = new Date(d.wkcommencing);
+      var weekPrior = new Date(now);
+      weekPrior.setDate(queryDate.getDate() - 7);
+      // get the most recent total
+      if ((wkcommencing <= now) && (wkcommencing >= weekPrior)) {
+        return d.totalactive;
+      }
     });
 
 }
 
-d3.json(TOTALS_DATA, display_latest);
+d3.json(GRAPH_DATA, display_latest);
