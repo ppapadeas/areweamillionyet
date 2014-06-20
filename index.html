@@ -35,15 +35,10 @@
             <div class="navbar-collapse collapse">
               <ul class="nav navbar-nav navbar">
                 <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Team Dashboards <b class="caret"></b></a>
-                  <ul class="dropdown-menu">
-                    <li class="dropdown-header"><a href="?team=moco">Mozilla Corporation</a></li>
-                    <li><a href="?team=coding">Coding</a></li>
-                    <li><a href="?team=qa">Quality Assurance</a></li>
-                    <li class="divider"></li>
-                    <li class="dropdown-header"><a href="?team=mofo">Mozilla Foundation</a></li>
-                    <li><a href="?team=opennews">Open News</a></li>
-                    <li><a href="?team=webmaker">Webmaker</a></li>
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Team &amp; System Dashboards <b class="caret"></b></a>
+                  <ul class="dropdown-menu" id="teams">
+                    <li><a href="/">All Mozilla</a></li>
+
                   </ul>
                 </li>
               </ul>
@@ -57,11 +52,11 @@
             <div class="total">
               <h1 id="active-total">Loading</h1>
               <h4>Active Contributors<br /></h4>
-              <h5>(<span id="teamName"></span>)</h5>
-              <p class="small definition hidden-sm hidden-xs">The rolling-total number of people who have taken a significant action in support of the Mozilla Project or our programs in the prior 12 months.</p>
+              <h5>to: <span id="teamName"></span></h5>
+              <p class="small definition hidden-sm hidden-xs">The rolling-total number of people who have contributed to Mozilla or our programs in the prior 12 months.</p>
               <div class="alert alert-warning alert-dismissable caution">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                <span class="fa fa-warning"></span> <strong>CAUTION! Dashboard in development (<a href="https://wiki.mozilla.org/Contribute/Areweamillionyet">Find out more</a>)</strong>. This demo is showing contributors whose commits have been merged into the primary branch of each repo in github.
+                <span class="fa fa-warning"></span> <strong>CAUTION! Dashboard in development (<a href="https://wiki.mozilla.org/Contribute/Areweamillionyet">Find out more</a>)</strong>. This is a work in progress. We are still adding data sources to this.
               </div>
               <!-- <div class="hidden-sm hidden-xs">
                 <br /><br />

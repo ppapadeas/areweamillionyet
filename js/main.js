@@ -1,39 +1,79 @@
 
 // check parameters to customise this by team:
 var team = $.url().param("team");
-var validTeams = ['moco', 'qa', 'coding', 'mofo', 'opennews', 'webmaker'];
 
-var GRAPH_DATA = "http://gitribution2.herokuapp.com/api/2014/all/";
+var teams = [
+  {
+    team: 'codingfirefoxdesktop',
+    name: 'Coding Firefox Desktop',
+    target: 2000
+  },
+  {
+    team: 'codingfirefoxos',
+    name: 'Coding Firefox OS',
+    target: 1200
+  },
+  {
+    team: 'codingfirefoxandroid',
+    name: 'Coding: Firefox for Android',
+    target: 300
+  },
+  {
+    team: 'qa',
+    name: 'QA',
+    target: 500
+  },
+  // {
+  //   team: 'webdev',
+  //   name: 'Webdev',
+  //   target: 1000
+  // },
+  {
+    team: 'sumo',
+    name: 'SUMO',
+    target: 1000
+  },
+  {
+    team: 'github',
+    name: 'Github: All Mozilla Projects',
+    target: 6000
+  },
+  {
+    team: 'bugzilla',
+    name: 'Bugzilla: All Mozilla Projects',
+    target: 6000
+  }
+];
+
+function isInTeams (s) {
+  for (var i = teams.length - 1; i >= 0; i--) {
+    if (teams[i].team === s) {
+      return true;
+    }
+  }
+  return false;
+}
+
+// Default data (All Mozilla)
+var GRAPH_DATA = "http://doctodash.herokuapp.com/";
 var TARGET = 20000;
 var TITLE = 'All Mozilla';
 
-if (team && ($.inArray(team, validTeams) > -1)) {
-  GRAPH_DATA = "http://gitribution2.herokuapp.com/api/2014/" + team;
-  if (team === 'moco') {
-    TARGET = 10000;
-    TITLE = 'Mozilla Corporation';
-
-  } else if (team === 'mofo') {
-    TARGET = 10000;
-    TITLE = 'Mozilla Foundation';
-
-  } else if (team === 'webmaker') {
-    TARGET = 10000;
-    TITLE = 'Webmaker';
-
-  } else if (team === 'opennews') {
-    TARGET = 500;
-    TITLE = 'OpenNews';
-
-  } else if (team === 'qa') {
-    TARGET = 1000;
-    TITLE = 'Quality Assurance';
-
-  } else if (team === 'coding') {
-    TARGET = 1000;
-    TITLE = 'Coding';
+function setupPageForTeam (team) {
+  for (var i = teams.length - 1; i >= 0; i--) {
+    if (teams[i].team === team) {
+      GRAPH_DATA = "http://doctodash.herokuapp.com/" + team;
+      TARGET = teams[i].target;
+      TITLE = teams[i].name;
+    }
   }
 }
+
+if (team && isInTeams (team)) {
+  setupPageForTeam(team);
+}
+
+
 
 $('#teamName').text(TITLE);
 
@@ -270,13 +310,15 @@ function display_latest (data) {
   d3.select("#active-total")
     .data([data])
     .text(function (d) {
+      // show the total of the latest date that has data
       var total = 0;
+      var latestData = new Date(2013,01,01);
       for (var i = 0; i < d.length; i++) {
         var wkcommencing = new Date(d[i].wkcommencing);
-        var weekPrior = new Date(now);
-        weekPrior.setDate(weekPrior.getDate() - 7);
-        if ((wkcommencing <= now) && (wkcommencing >= weekPrior)) {
-          total = d[i].totalactive;
+        if (wkcommencing >= latestData) {
+          if(d[i].totalactive) {
+            total = d[i].totalactive;
+          }
         }
       }
       return $.number(total);
@@ -285,3 +327,14 @@ function display_latest (data) {
 }
 
 d3.json(GRAPH_DATA, display_latest);
+
+
+$( document ).ready(function() {
+  // Build the team menu list
+  var menuList = $('#teams');
+  $.each(teams, function (index, value) {
+    menuList.append('<li><a href="?team='+ value.team + '&">'+value.name+'</a></li>');
+  });
+});
+
+
