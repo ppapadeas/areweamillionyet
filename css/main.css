@@ -207,7 +207,11 @@ svg {
   fill: #333;
   stroke: none;
 }
-.axis.new .tick text {
+.axis.x .tick text {
+  fill: #999;
+}
+.axis.new .tick text,
+.label-y2 {
   fill: #3793D4;
 }
 

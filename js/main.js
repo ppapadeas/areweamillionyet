@@ -54,7 +54,6 @@ var VIEWBOX = "0 0 " + (width + margin.horizontal) + " " + (height + margin.vert
 
 var TICK_VALUES = [TARGET_25_percent, TARGET_50_percent, TARGET_75_percent, TARGET, Y_SCALE_MAX_DEFAULT];
 
-var SHOW_FUTURE_LAG = false;
 var now = new Date();
 
 // CONTAINER
@@ -65,6 +64,7 @@ d3.select("#chart")
 
 // Build the graph
 function draw(data) {
+  var chart = d3.select("#chart");
 
   // SCALE
   var y_scale_max = Y_SCALE_MAX_DEFAULT;
@@ -79,7 +79,7 @@ function draw(data) {
   // secondary Y axis
   var contributor_new_extent = d3.extent(data, function (d) { return d.new; });
   var y_scale_2 = d3.scale.linear()
-    .range([height + margin.top, margin.top])
+    .range([height + margin.top, margin.top + (height/5*3)])
     .domain([0,contributor_new_extent[1]*15]);
 
   var time_extent = d3.extent(data, function (d) { return new Date(d.wkcommencing); });
@@ -88,198 +88,160 @@ function draw(data) {
     .range([margin.left, margin.left + width]);
 
   // TOOL TIP
-  var tip = d3.tip()
-  .attr('class', 'd3-tip')
-  .offset([35, 0])
-  .html(function(d) {
-    return "<span style='color:#FFF;'>" + $.number(d.totalactive) + "</span> Active<br /><span style='color:#3793D4;'>" + $.number(d.new) + "</span> New";
-  });
+  var tip = d3.tip();
 
-  d3.select("#chart").call(tip);
+  tip
+    .attr('class', 'd3-tip')
+    .offset([35, 0])
+    .html(function(d) {
+      return "<span style='color:#FFF;'>" + $.number(d.totalactive) + "</span> Active<br /><span style='color:#3793D4;'>" + $.number(d.new) + "</span> New";
+    });
+
+  chart.call(tip);
 
   // REFERENCE LINES
-  d3.select("#chart")
-    .append("line")
-    .attr("x1", margin.left)
-    .attr("x2", margin.left + width - 20)
-    .attr("y1", y_scale(TARGET_25_percent))
-    .attr("y2", y_scale(TARGET_25_percent))
-    .attr("class", "target milestone");
-
-  d3.select("#chart")
-    .append("line")
-    .attr("x1", margin.left)
-    .attr("x2", margin.left + width - 20)
-    .attr("y1", y_scale(TARGET_50_percent))
-    .attr("y2", y_scale(TARGET_50_percent))
-    .attr("class", "target milestone");
-
-  d3.select("#chart")
-    .append("line")
-    .attr("x1", margin.left)
-    .attr("x2", margin.left + width - 20)
-    .attr("y1", y_scale(TARGET_75_percent))
-    .attr("y2", y_scale(TARGET_75_percent))
-    .attr("class", "target milestone");
-
-  d3.select("#chart")
-    .append("line")
-    .attr("x1", margin.left)
-    .attr("x2", margin.left + width - 20)
-    .attr("y1", y_scale(TARGET))
-    .attr("y2", y_scale(TARGET))
-    .style("stroke-dasharray", ("3, 3"))
-    .attr("class", "target goal");
+  function addRefLine (amount, scale, cssClass) {
+    chart
+      .append("line")
+      .attr("x1",         margin.left)
+      .attr("x2",         margin.left + width - 20)
+      .attr("y1",         scale(amount))
+      .attr("y2",         scale(amount))
+      .attr("class",      cssClass);
+  }
+  addRefLine(TARGET_25_percent, y_scale, "target milestone");
+  addRefLine(TARGET_50_percent, y_scale, "target milestone");
+  addRefLine(TARGET_75_percent, y_scale, "target milestone");
+  addRefLine(TARGET, y_scale, "target goal");
 
   // Bars
   var barWidth = width / data.length;
   var halfBar = (barWidth / 2) - 1;
 
-  // HOVER BARS
-  d3.select("#chart")
+  // INFO-AREA HOVER BARS
+  chart
     .selectAll("g")
     .data(data)
     .enter()
     .append("rect")
-      .attr("class", function (d) {
-        if (new Date(d.wkcommencing) > now) {
-          if (SHOW_FUTURE_LAG) {
-            return "info-area future-date";
-          } else {
-            return "hide";
-          }
-        } else {
-          return "info-area";
-        }
-      })
+      .attr("class",      function (d) { return "info-area"; })
+      .attr("x",          function (d) { return x_scale(new Date(d.wkcommencing)); })
       .attr("y",          function (d) { return margin.top; })
       .attr("height",     function (d) { return height; })
-      .attr("width", barWidth - 1)
-      .on("mouseover", function(d, i) {
-        d3.select(this).style("opacity", 0.1);
-        tip.show(d);
-        })
-      .on("mouseout", function(d, i) {
-        d3.select(this).style("opacity", 0);
-        tip.hide(d);
-      });
+      .attr("width",      barWidth - 1)
+      .on("mouseover",    function (d, i) {
+                            d3.select(this).style("opacity", 0.1);
+                            tip.show(d);
+                          })
+      .on("mouseout",     function (d, i) {
+                            d3.select(this).style("opacity", 0);
+                            tip.hide(d);
+                          });
 
-  // Position these elements on the X axis using their date value
-  d3.select("#chart").selectAll(".info-area")
-    .attr("x", function (d) { return x_scale(new Date(d.wkcommencing)); });
-
-  // NEW CONTRIBUTORS
-  d3.select("#chart")
+  // NEW CONTRIBUTOR BARS
+  chart
     .selectAll("g")
-    .data(data.filter(function (d) { return (d.new > 0); }))
+    .data(data.filter(    function (d) { return (d.new > 0); }))
     .enter()
     .append("rect")
-      .attr("class", function (d) {
-        if (new Date(d.wkcommencing) > now) {
-          if (SHOW_FUTURE_LAG) {
-            return "new-contributors future-date";
-          } else {
-            return "hide";
-          }
-        } else {
-          return "new-contributors";
-        }
-      })
+      .attr("class",      "new-contributors")
+      .attr("x",          function (d) { return x_scale(new Date(d.wkcommencing)); })
       .attr("y",          function (d) { return y_scale_2(d.new); })
       .attr("height",     function (d) { return height+margin.top - y_scale_2(d.new); })
-      .attr("width", barWidth - 1);
+      .attr("width",      barWidth - 1);
 
-  // Position these elements on the X axis using their date value
-  d3.select("#chart").selectAll(".new-contributors")
-    .attr("x", function (d) { return x_scale(new Date(d.wkcommencing)); });
 
-  // ACTIVE CONTRIBUTORS
+  // ACTIVE CONTRIBUTOR LINE
   // Line
   var line = d3.svg.line()
     .x(function (d) { return x_scale(new Date(d.wkcommencing)) + halfBar; })
     .y(function (d) { return y_scale(d.totalactive); });
 
-  d3.select("#chart")
+  chart
     .append("path")
-    .datum(data.filter(function (d) {
-        return (d.totalactive > 0) && (new Date(d.wkcommencing) < now);
-      })
-    )
-    .attr("class", "line active-contributors")
-    .attr("d", line);
+    .datum(data.filter(   function (d) {
+                            return (d.totalactive > 0) && (new Date(d.wkcommencing) < now);
+                          }))
+    .attr("class",        "line active-contributors")
+    .attr("d",            line);
 
   // Points
-  d3.select("#chart")
+  chart
     .selectAll("points")
-    .data(data.filter(function (d) { return (d.totalactive > 0); }))
+    .data(data.filter(    function (d) {
+                            return (d.totalactive > 0) && (new Date(d.wkcommencing) < now);
+                          }))
     .enter()
     .append("circle")
-    .attr("class", function (d) {
-      if (new Date(d.wkcommencing) > now) {
-        if (SHOW_FUTURE_LAG) {
-          return "active-contributors future-date";
-        }
-      } else {
-        return "active-contributors";
-      }
-    });
-
-  d3.select("#chart").selectAll(".active-contributors")
-    .attr("cx", function (d) { return x_scale(new Date(d.wkcommencing)) + halfBar; })
-    .attr("cy", function (d) { return y_scale(d.totalactive); })
-    .attr("r", function (d) {
-      if (new Date(d.wkcommencing) > now) {
-        return 1.0;
-      } else {
-        return 2.0;
-      }
-    });
+    .attr("cx",           function (d) { return x_scale(new Date(d.wkcommencing)) + halfBar; })
+    .attr("cy",           function (d) { return y_scale(d.totalactive); })
+    .attr("r",            function (d) { return 2.0; })
+    .attr("class",        "active-contributors");
 
 
-  // AXIS
-  var x_axis  = d3.svg.axis()
-                .scale(x_scale)
-                .ticks(d3.time.months, 1)
-                .tickFormat(function (d) {
-                  var format_month = d3.time.format('%b'); // short name month e.g. Feb
-                  var format_year = d3.time.format('%Y');
-                  var label = format_month(d).toUpperCase();
-                  if (label === "JAN") {
-                    label = format_year(d);
-                  }
-                  return label;
-                });
-  d3.select("#chart")
+
+  // X AXIS
+  var x_axis  = d3.svg.axis();
+  x_axis
+    .scale(x_scale)
+    .ticks(d3.time.months, 1)
+    .tickFormat(           function (d) {
+                              var format_month = d3.time.format('%b'); // short name month e.g. Feb
+                              var format_year = d3.time.format('%Y');
+                              var label = format_month(d);
+                              if (label === "Jan") {
+                                label = format_year(d);
+                              }
+                              return label;
+                            });
+
+  chart
+    .append("g")
+      .attr("class",        "x axis")
+      .attr("transform",     "translate(0," + (height + margin.top) + ")")
+      .call(x_axis)
+    .selectAll("text") // rotate text
+      .attr("y",            0)
+      .attr("x",            0)
+      .attr("dy",           ".35em")
+      .attr("transform",    "rotate(270) translate(-15,0)")
+      .style("text-anchor", "end");
+
+  // Y AXIS LEFT
+  var y_axis = d3.svg.axis();
+  y_axis
+    .scale(y_scale)
+    .orient("left")
+    .tickValues(TICK_VALUES);
+
+  chart
   .append("g")
-    .attr("class", "x axis")
-    .attr("transform", "translate(0," + (height + margin.top) + ")")
-    .call(x_axis)
-  .selectAll("text") // rotate text
-    .attr("y", 0)
-    .attr("x", 0)
-    .attr("dy", ".35em")
-    .attr("transform", "rotate(270) translate(-15,0)")
-    .style("text-anchor", "end");
-
-  var y_axis = d3.svg.axis()
-                .scale(y_scale)
-                .orient("left")
-                .tickValues(TICK_VALUES);
-  d3.select("#chart")
-  .append("g")
-    .attr("class", "y axis")
-    .attr("transform", "translate(" + margin.left + ", 0 )")
+    .attr("class",          "y axis")
+    .attr("transform",      "translate(" + margin.left + ", 0 )")
   .call(y_axis);
 
-  var y_axis_2 = d3.svg.axis()
-                .scale(y_scale_2)
-                .orient("right")
-                .ticks(4);
-  d3.select("#chart")
+  // Y AXIS RIGHT
+  var y_axis_2 = d3.svg.axis();
+  y_axis_2
+    .scale(y_scale_2)
+    .orient("right")
+      .ticks(4);
+
+  chart
   .append("g")
-    .attr("class", "y axis new")
-    .attr("transform", "translate(" + (width + margin.left) + ", 0 )")
+    .attr("class",          "y axis new")
+    .attr("transform",      "translate(" + (width + margin.left) + ", 0 )")
   .call(y_axis_2);
+
+  // label
+  chart.append("text")
+    .attr("class",          "label-y2")
+    .attr("text-anchor",     "end")
+    .attr("x", 0)
+    .attr("y", 0)
+    .attr("transform",      "rotate(270) translate(-" + (height/5*4) + "," + (width + margin.left + (margin.right/4*3)) + ")")
+    .text("New");
+
 }
 
 // Draw the D3 chart
