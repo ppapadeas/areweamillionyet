@@ -7,25 +7,33 @@ var sources = [
     source: 'codingfirefoxdesktop',
     name: 'Coding Firefox Desktop',
     target: 2000,
-    type: 'team'
+    type: 'team',
+    rule: 'https://wiki.mozilla.org/Contribute/Conversion_points#Coding',
+    system: 'Bugzilla:Firefox:: & Github:mozilla/gecko-dev'
   },
   {
     source: 'codingfirefoxos',
     name: 'Coding Firefox OS',
     target: 1200,
-    type: 'team'
+    type: 'team',
+    rule: 'https://wiki.mozilla.org/Contribute/Conversion_points#Coding',
+    system: 'Bugzilla:Firefox OS:: & Github: 80 repos'
   },
   {
     source: 'codingfirefoxandroid',
     name: 'Coding Firefox for Android',
     target: 300,
-    type: 'team'
+    type: 'team',
+    rule: 'https://wiki.mozilla.org/Contribute/Conversion_points#Coding',
+    system: 'Bugzilla:Firefox for Android'
   },
   {
     source: 'qa',
     name: 'Quality Assurance',
     target: 500,
-    type: 'team'
+    type: 'team',
+    rule: 'https://wiki.mozilla.org/Contribute/Conversion_points#QA',
+    system: 'Bugzilla & Github: 7 repos'
   },
   // {
   //   source: 'webdev',
@@ -37,19 +45,25 @@ var sources = [
     source: 'sumo',
     name: 'Support',
     target: 1000,
-    type: 'team'
+    type: 'team',
+    rule: 'https://wiki.mozilla.org/Contribute/Conversion_points#Support',
+    system: 'support.mozilla.org'
   },
   {
     source: 'github',
     name: 'All Github',
     target: 6000,
-    type: 'system'
+    type: 'system',
+    rule: 'https://wiki.mozilla.org/Contribute/Conversion_points',
+    system: 'github.com'
   },
   {
     source: 'bugzilla',
     name: 'All Bugzilla',
     target: 6000,
-    type: 'system'
+    type: 'system',
+    rule: 'https://wiki.mozilla.org/Contribute/Conversion_points',
+    system: 'bugzilla.mozilla.org'
   }
 ];
 
@@ -348,7 +362,15 @@ $( document ).ready(function() {
     if (value.type === 'system') {
       systemMenu.append('<li><a href="?source='+ value.source + '&">'+value.name+'</a></li>');
     }
+    if (value.source === $.url().param("source")) {
+      $('#rules-link').attr("href", value.rule );
+      $('#rules-tooltip').attr("title", value.system );
+    } else {
+      $('#rules-link').attr("href", "https://wiki.mozilla.org/Contribute/Conversion_points" );
+      $('#rules-tooltip').attr("title", "Bugzilla, SUMO, Github repos" );
+    }
   });
+  $('#rules-tooltip').tooltip();
 });
 
 
