@@ -34,11 +34,15 @@
             </div>
             <div class="navbar-collapse collapse">
               <ul class="nav navbar-nav navbar">
+                <li><a href="/">All Mozilla</a></li>
                 <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Team &amp; System Dashboards <b class="caret"></b></a>
-                  <ul class="dropdown-menu" id="teams">
-                    <li><a href="/">All Mozilla</a></li>
-
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Teams<b class="caret"></b></a>
+                  <ul class="dropdown-menu" id="teamMenu">
+                  </ul>
+                </li>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Systems<b class="caret"></b></a>
+                  <ul class="dropdown-menu" id="systemMenu">
                   </ul>
                 </li>
               </ul>
@@ -52,7 +56,7 @@
             <div class="total">
               <h1 id="active-total">Loading</h1>
               <h4>Active Contributors<br /></h4>
-              <h5>to: <span id="teamName"></span></h5>
+              <h5>to: <span id="sourceName"></span></h5>
               <p class="small definition hidden-sm hidden-xs">The rolling-total number of people who have contributed to Mozilla or our programs in the prior 12 months.</p>
               <div class="alert alert-warning alert-dismissable caution">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>

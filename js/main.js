@@ -1,53 +1,61 @@
 
-// check parameters to customise this by team:
-var team = $.url().param("team");
+// check parameters to customise this by source:
+var source = $.url().param("source");
 
-var teams = [
+var sources = [
   {
-    team: 'codingfirefoxdesktop',
+    source: 'codingfirefoxdesktop',
     name: 'Coding Firefox Desktop',
-    target: 2000
+    target: 2000,
+    type: 'team'
   },
   {
-    team: 'codingfirefoxos',
+    source: 'codingfirefoxos',
     name: 'Coding Firefox OS',
-    target: 1200
+    target: 1200,
+    type: 'team'
   },
   {
-    team: 'codingfirefoxandroid',
+    source: 'codingfirefoxandroid',
     name: 'Coding: Firefox for Android',
-    target: 300
+    target: 300,
+    type: 'team'
   },
   {
-    team: 'qa',
+    source: 'qa',
     name: 'QA',
-    target: 500
+    target: 500,
+    type: 'team'
   },
   // {
-  //   team: 'webdev',
+  //   source: 'webdev',
   //   name: 'Webdev',
-  //   target: 1000
+  //   target: 1000,
+  //   type: 'team'
   // },
   {
-    team: 'sumo',
+    source: 'sumo',
     name: 'SUMO',
-    target: 1000
+    target: 1000,
+    type: 'team'
   },
   {
-    team: 'github',
-    name: 'Github: All Mozilla Projects',
-    target: 6000
+    source: 'github',
+    name: 'All Github',
+    target: 6000,
+    type: 'system'
   },
   {
-    team: 'bugzilla',
-    name: 'Bugzilla: All Mozilla Projects',
-    target: 6000
+    source: 'bugzilla',
+    name: 'All Bugzilla',
+    target: 6000,
+    type: 'system'
   }
 ];
 
-function isInTeams (s) {
-  for (var i = teams.length - 1; i >= 0; i--) {
-    if (teams[i].team === s) {
+function isInSources (s) {
+  for (var i = sources.length - 1; i >= 0; i--) {
+    if (sources[i].source === s) {
       return true;
     }
   }
@@ -59,23 +67,23 @@ var GRAPH_DATA = "http://doctodash.herokuapp.com/";
 var TARGET = 20000;
 var TITLE = 'All Mozilla';
 
-function setupPageForTeam (team) {
-  for (var i = teams.length - 1; i >= 0; i--) {
-    if (teams[i].team === team) {
-      GRAPH_DATA = "http://doctodash.herokuapp.com/" + team;
-      TARGET = teams[i].target;
-      TITLE = teams[i].name;
+function setupPageForSource (source) {
+  for (var i = sources.length - 1; i >= 0; i--) {
+    if (sources[i].source === source) {
+      GRAPH_DATA = "http://doctodash.herokuapp.com/" + source;
+      TARGET = sources[i].target;
+      TITLE = sources[i].name;
     }
   }
 }
 
-if (team && isInTeams (team)) {
-  setupPageForTeam(team);
+if (source && isInSources (source)) {
+  setupPageForSource(source);
 }
 
 
 
-$('#teamName').text(TITLE);
+$('#sourceName').text(TITLE);
 
 // Graph settings
 var Y_SCALE_MAX_DEFAULT = TARGET * 1.25;
@@ -330,10 +338,16 @@ d3.json(GRAPH_DATA, display_latest);
 
 
 $( document ).ready(function() {
-  // Build the team menu list
-  var menuList = $('#teams');
-  $.each(teams, function (index, value) {
-    menuList.append('<li><a href="?team='+ value.team + '&">'+value.name+'</a></li>');
+  // Build the source menu list
+  var teamMenu = $('#teamMenu');
+  var systemMenu = $('#systemMenu');
+  $.each(sources, function (index, value) {
+    if (value.type === 'team') {
+      teamMenu.append('<li><a href="?source='+ value.source + '&">'+value.name+'</a></li>');
+    }
+    if (value.type === 'system') {
+      systemMenu.append('<li><a href="?source='+ value.source + '&">'+value.name+'</a></li>');
+    }
   });
 });
 
