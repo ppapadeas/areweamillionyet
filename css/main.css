@@ -247,6 +247,8 @@ line.target {
 line.target.goal {
     fill: none;
     stroke: #333;
+    stroke-dasharray: 3,3;
+    opacity: 0.8;
 }
 
 body rect {
