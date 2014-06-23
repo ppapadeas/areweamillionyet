@@ -352,9 +352,11 @@ d3.json(GRAPH_DATA, display_latest);
 
 
 $( document ).ready(function() {
-  // Build the source menu list
+  // Build the source menu list and add links for rules and systems
   var teamMenu = $('#teamMenu');
   var systemMenu = $('#systemMenu');
+  $('#rules-link').attr("href", "https://wiki.mozilla.org/Contribute/Conversion_points" );
+  $('#rules-tooltip').attr("title", "Bugzilla, SUMO, Github repos" );
   $.each(sources, function (index, value) {
     if (value.type === 'team') {
       teamMenu.append('<li><a href="?source='+ value.source + '&">'+value.name+'</a></li>');
@@ -365,9 +367,6 @@ $( document ).ready(function() {
     if (value.source === $.url().param("source")) {
       $('#rules-link').attr("href", value.rule );
       $('#rules-tooltip').attr("title", value.system );
-    } else {
-      $('#rules-link').attr("href", "https://wiki.mozilla.org/Contribute/Conversion_points" );
-      $('#rules-tooltip').attr("title", "Bugzilla, SUMO, Github repos" );
     }
   });
   $('#rules-tooltip').tooltip();
