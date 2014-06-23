@@ -17,13 +17,13 @@ var sources = [
   },
   {
     source: 'codingfirefoxandroid',
-    name: 'Coding: Firefox for Android',
+    name: 'Coding Firefox for Android',
     target: 300,
     type: 'team'
   },
   {
     source: 'qa',
-    name: 'QA',
+    name: 'Quality Assurance',
     target: 500,
     type: 'team'
   },
@@ -35,7 +35,7 @@ var sources = [
   // },
   {
     source: 'sumo',
-    name: 'SUMO',
+    name: 'Support',
     target: 1000,
     type: 'team'
   },
