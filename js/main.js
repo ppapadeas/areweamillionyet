@@ -44,7 +44,7 @@ var sources = [
   {
     source: 'sumo',
     name: 'Support',
-    target: 1000,
+    target: 1500,
     type: 'team',
     rule: 'https://wiki.mozilla.org/Contribute/Conversion_points#Support',
     system: 'support.mozilla.org'
