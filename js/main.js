@@ -4,7 +4,7 @@ var source = $.url().param("source");
 
 var sources = [
   {
-    source: 'codingfirefoxdesktop',
+    source: 'firefox',
     name: 'Coding Firefox Desktop',
     target: 2000,
     type: 'team',
@@ -12,7 +12,7 @@ var sources = [
     system: 'Bugzilla:Firefox:: & Github:mozilla/gecko-dev'
   },
   {
-    source: 'codingfirefoxos',
+    source: 'firefoxos',
     name: 'Coding Firefox OS',
     target: 1200,
     type: 'team',
@@ -20,7 +20,7 @@ var sources = [
     system: 'Bugzilla:Firefox OS:: & Github: 80 repos'
   },
   {
-    source: 'codingfirefoxandroid',
+    source: 'firefoxforandroid',
     name: 'Coding Firefox for Android',
     target: 300,
     type: 'team',
@@ -77,14 +77,14 @@ function isInSources (s) {
 }
 
 // Default data (All Mozilla)
-var GRAPH_DATA = "http://doctodash.herokuapp.com/";
+var GRAPH_DATA = "http://doctodash.herokuapp.com/tab/all";
 var TARGET = 20000;
 var TITLE = 'All Mozilla';
 
 function setupPageForSource (source) {
   for (var i = sources.length - 1; i >= 0; i--) {
     if (sources[i].source === source) {
-      GRAPH_DATA = "http://doctodash.herokuapp.com/" + source;
+      GRAPH_DATA = "http://doctodash.herokuapp.com/tab/" + source;
       TARGET = sources[i].target;
       TITLE = sources[i].name;
     }
