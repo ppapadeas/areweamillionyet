@@ -3,10 +3,11 @@
 var source = $.url().param("source");
 
 var sources = [
+  // Teams
   {
     source: 'firefox',
     name: 'Coding Firefox Desktop',
-    target: 2000,
+    target: 4000,
     type: 'team',
     rule: 'https://wiki.mozilla.org/Contribute/Conversion_points#Coding',
     system: 'Bugzilla:Firefox:: & Github:mozilla/gecko-dev'
@@ -35,12 +36,6 @@ var sources = [
     rule: 'https://wiki.mozilla.org/Contribute/Conversion_points#QA',
     system: 'Bugzilla & Github: 7 repos'
   },
-  // {
-  //   source: 'webdev',
-  //   name: 'Webdev',
-  //   target: 1000,
-  //   type: 'team'
-  // },
   {
     source: 'sumo',
     name: 'Support',
@@ -50,16 +45,41 @@ var sources = [
     system: 'support.mozilla.org'
   },
   {
+    source: 'reps',
+    name: 'Reps',
+    target: 500,
+    type: 'team',
+    rule: 'https://wiki.mozilla.org/Contribute/Conversion_points#Reps',
+    system: 'reps.mozilla.org'
+  },
+  //Systems
+  {
+    source: 'sumo',
+    name: 'support.mozilla.org',
+    target: 1500,
+    type: 'system',
+    rule: 'https://wiki.mozilla.org/Contribute/Conversion_points#Support',
+    system: 'support.mozilla.org'
+  },
+  {
     source: 'github',
-    name: 'All Github',
+    name: 'github.com',
     target: 6000,
     type: 'system',
     rule: 'https://wiki.mozilla.org/Contribute/Conversion_points',
     system: 'github.com'
   },
   {
+    source: 'reps',
+    name: 'reps.mozilla.org',
+    target: 500,
+    type: 'system',
+    rule: 'https://wiki.mozilla.org/Contribute/Conversion_points#Reps',
+    system: 'reps.mozilla.org'
+  },
+  {
     source: 'bugzilla',
-    name: 'All Bugzilla',
+    name: 'bugzilla.mozilla.org',
     target: 6000,
     type: 'system',
     rule: 'https://wiki.mozilla.org/Contribute/Conversion_points',
